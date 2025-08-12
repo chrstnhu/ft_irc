@@ -8,18 +8,22 @@ OBJ_DIR	= obj
 SRCS_PATH = srcs
 COMMANDS_PATH = srcs/commands
 UTILS_PATH = srcs/utils
+BONUS_PATH = srcs/bonus
 HEADERS = includes
 
 # Source files
-SRCS_FILES = 
-COMMANDS_FILES = 
-UTILS_FILES = print_msg.cpp
+SRCS_FILES = Server.cpp Client.cpp Channel.cpp Command.cpp
+COMMANDS_FILES = NICK.cpp PASS.cpp USER.cpp CAP.cpp JOIN.cpp PING.cpp \
+	QUIT.cpp PART.cpp KICK.cpp INVITE.cpp MODE.cpp TOPIC.cpp \
+	PRIVMSG.cpp 
+UTILS_FILES = printMsg.cpp utils.cpp
+BONUS_FILES = BotGames.cpp BotCommands.cpp BotBonus.cpp RPN.cpp 
 
-SRCS = $(SRCS_FILES:%=SRCS_PATH/%) $(COMMANDS_FILES:%=COMMANDS_PATH/%) \
-	$(UTILS_FILES:%=UTILS_PATH/%) \
-	srcs/main.c
+SRCS = $(SRCS_FILES:%=$(SRCS_PATH)/%) $(COMMANDS_FILES:%=$(COMMANDS_PATH)/%) \
+	$(UTILS_FILES:%=$(UTILS_PATH)/%) $(SRCS_PATH)/main.cpp $(BONUS_FILES:%=$(BONUS_PATH)/%)
 
-OBJS = $(SRCS:$(SRCS_PATH)/%.c=$(OBJ_DIR)/%.o)
+
+OBJS = $(SRCS:$(SRCS_PATH)/%.cpp=$(OBJ_DIR)/%.o)
 
 # Compilation
 CC = c++
@@ -29,7 +33,7 @@ NAME = ircserv
 
 # Create a objet directory
 $(OBJ_DIR)/%.o: $(SRCS_PATH)/%.cpp $(HEADERS)/*.hpp
-	@mkdir -p $(OBJ_DIR) 
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@ 
 	
 # Execute

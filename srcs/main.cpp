@@ -14,6 +14,7 @@ int main(int argc, char **argv) {
     try {
         Server server(port, password);
         server.launch();
+        server.cleanup();
     } catch (const std::exception &e) {
         printColor("Error: " + std::string(e.what()), BOLDRED);
         return 1;
